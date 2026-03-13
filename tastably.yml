@@ -19,15 +19,18 @@ jobs:
       
       - name: Upload Results to Testably
         if: always()
+        env:
+          TESTABLY_URL: ${{ secrets.TESTABLY_URL }}
+          TESTABLY_TOKEN: ${{ secrets.TESTABLY_TOKEN }}
         run: |
-          curl -X POST https://ahzfskzuyzcmgilcvozn.supabase.co/functions/v1/upload-ci-results \
-            -H "Authorization: Bearer testably_516a53c7b4bc4a7689beea2b6f46fd4f" \
+          curl -X POST "$TESTABLY_URL" \
+            -H "Authorization: Bearer $TESTABLY_TOKEN" \
             -H "Content-Type: application/json" \
             -d '{
-              "run_id": "${{ github.run_id }}",
+              "run_id": "YOUR_RUN_ID",
               "results": [
                 {
-                  "test_case_id": "test-case-uuid",
+                  "test_case_id": "SUI-1",
                   "status": "passed",
                   "note": "Test passed successfully",
                   "elapsed": 1.5,
